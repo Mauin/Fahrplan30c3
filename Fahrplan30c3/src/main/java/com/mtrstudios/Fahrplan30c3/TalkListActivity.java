@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -11,16 +13,15 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.mtrstudios.Fahrplan30c3.Data.Conference;
 import com.mtrstudios.Fahrplan30c3.Data.Day;
+import com.mtrstudios.Fahrplan30c3.Data.Fahrplan;
 import com.mtrstudios.Fahrplan30c3.Data.Room;
 import com.mtrstudios.Fahrplan30c3.Data.Schedule;
-import com.mtrstudios.Fahrplan30c3.Misc.MyVolley;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
 
-import java.io.StringReader;
+import java.util.Locale;
 
 
 /**
@@ -30,11 +31,11 @@ import java.io.StringReader;
  * lead to a {@link TalkDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
- * <p>
+ * <p/>
  * The activity makes heavy use of fragments. The list of items is a
  * {@link TalkListFragment} and the item details
  * (if present) is a {@link TalkDetailFragment}.
- * <p>
+ * <p/>
  * This activity also implements the required
  * {@link TalkListFragment.Callbacks} interface
  * to listen for item selections.
@@ -47,67 +48,10 @@ public class TalkListActivity extends FragmentActivity
      * device.
      */
     private boolean mTwoPane;
-    private String xmlResponse;
-
-    private void parseSchedule(String xmlSchedule) {
-        Schedule schedule = null;
-        Serializer serializer = new Persister();
-        try {
-            Log.i("XMLParser", "Parsing XML Schedule");
-            schedule = serializer.read(Schedule.class, xmlResponse);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if (schedule != null) {
-            Log.i("XMLParser", "Parsing successful");
-            Log.i("Schedule", "Version: " + schedule.getVersion());
-            Log.i("Schedule", "Welcome to event: " + schedule.getConference().getTitle());
-            Log.i("Schedule", "Number of days: " + schedule.getDays().size());
-
-            int eventCount = 0;
-            for (Day day : schedule.getDays()) {
-                for (Room room : day.getRooms()) {
-                    eventCount += room.getEvents().size();
-                }
-            }
-
-            Log.i("Schedule", "Number of events: " + eventCount);
-        }
-
-    }
-
-    private Response.Listener<String> createRequestSuccessListener() {
-        return new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                xmlResponse = response;
-                Log.i("RequestQueue", "Schedule get!");
-                Toast.makeText(getBaseContext(), "XML Get!", Toast.LENGTH_SHORT).show();
-
-                parseSchedule(response);
-            }
-        };
-    }
-    private Response.ErrorListener createRequestErrorListener() {
-        return new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                xmlResponse = null;
-                Toast.makeText(getBaseContext(), "Failed to get data...", Toast.LENGTH_SHORT).show();
-            }
-        };
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // Just get the XML-Fahrplan
-        RequestQueue queue = MyVolley.getRequestQueue();
-        StringRequest request = new StringRequest(Request.Method.GET, "http://events.ccc.de/congress/2013/Fahrplan/schedule.xml", createRequestSuccessListener(), createRequestErrorListener());
-        queue.add(request);
-        Log.i("RequestQueue", "Added request for XML-Schedule");
 
         setContentView(R.layout.activity_talk_list);
 
@@ -125,7 +69,26 @@ public class TalkListActivity extends FragmentActivity
                     .setActivateOnItemClick(true);
         }
 
-        // TODO: If exposing deep links into your app, handle intents here.
+        ((FahrplanApplication) getApplication()).getFahrplan(this, new Response.Listener<Fahrplan>() {
+            @Override
+            public void onResponse(Fahrplan fahrplan) {
+                if (fahrplan != null) {
+                    Log.i(TalkListActivity.class.getName(), "Fahrplan loaded :D" + fahrplan);
+                    Toast.makeText(TalkListActivity.this,
+                            String.format(Locale.US, "Using Fahrplan v%.2f", fahrplan.getVersion()),
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(TalkListActivity.this, "No Fahrplan :(", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.talk_list, menu);
+        return true;
     }
 
     /**
@@ -153,5 +116,31 @@ public class TalkListActivity extends FragmentActivity
             detailIntent.putExtra(TalkDetailFragment.ARG_ITEM_ID, id);
             startActivity(detailIntent);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                doRefresh();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void doRefresh() {
+        ((FahrplanApplication) getApplication()).getFahrplan(this, new Response.Listener<Fahrplan>() {
+            @Override
+            public void onResponse(Fahrplan fahrplan) {
+                if (fahrplan != null) {
+                    Log.i(TalkListActivity.class.getName(), "Fahrplan loaded :D" + fahrplan);
+                    Toast.makeText(TalkListActivity.this,
+                            String.format(Locale.US, "Using Fahrplan v%.2f", fahrplan.getVersion()),
+                            Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(TalkListActivity.this, "No Fahrplan :(", Toast.LENGTH_LONG).show();
+                }
+            }
+        }, true);
     }
 }
