@@ -1,14 +1,12 @@
 package com.mtrstudios.Fahrplan30c3;
 
 import android.app.Activity;
-import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 import com.mtrstudios.Fahrplan30c3.Data.Event;
-import com.mtrstudios.Fahrplan30c3.R;
 
 import java.util.List;
 
@@ -17,9 +15,6 @@ import java.util.List;
  */
 public class EventListAdapter extends ArrayAdapter<Event> {
 
-    public static final int GREEN = Color.parseColor("#99CC00");
-    public static final int YELLOW = Color.parseColor("#FFBB33");
-    public static final int RED = Color.parseColor("#FF4444");
     private final Activity ctx;
 
     static class ViewHolder {
@@ -27,6 +22,7 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         public TextView txSpeaker;
         public TextView txAbstract;
         public TextView txTime;
+        public View txTrackIndicator;
 
     }
 
@@ -51,15 +47,17 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             viewHolder.txSpeaker = (TextView) rowView.findViewById(R.id.tx_speaker);
             viewHolder.txAbstract = (TextView) rowView.findViewById(R.id.tx_abstract);
             viewHolder.txTime = (TextView) rowView.findViewById(R.id.tx_time);
+            viewHolder.txTrackIndicator = rowView.findViewById(R.id.spc_track);
             rowView.setTag(viewHolder);
         }
 
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        final Event item = getItem(position);
-        holder.txTitle.setText(item.getTitle());
-        holder.txSpeaker.setText(item.getSpeakerNames());
-        holder.txTime.setText(item.getStart());
-        holder.txAbstract.setText(item.getAbstract_description());
+        final Event event = getItem(position);
+        holder.txTitle.setText(event.getTitle());
+        holder.txSpeaker.setText(event.getSpeakerNames());
+        holder.txTime.setText(event.getStart());
+        holder.txAbstract.setText(event.getAbstract_description());
+        holder.txTrackIndicator.setBackgroundColor(event.getTrackColor());
 
         return rowView;
     }
