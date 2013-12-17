@@ -23,7 +23,7 @@ android {
 }
 
 dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar') // jar files under the libs folder.
 	compile 'com.android.support:support-v4:18.0.0'
-    compile files('libs/volley.jar')
-    compile files('libs/simple-xml-2.7.1.jar')
+    compile 'com.google.guava:guava:15.0'
 }

@@ -7,19 +7,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.mtrstudios.Fahrplan30c3.Data.Day;
 import com.mtrstudios.Fahrplan30c3.Data.Fahrplan;
-import com.mtrstudios.Fahrplan30c3.Data.Room;
-import com.mtrstudios.Fahrplan30c3.Data.Schedule;
-
-import org.simpleframework.xml.Serializer;
-import org.simpleframework.xml.core.Persister;
 
 import java.util.Locale;
 
@@ -55,6 +44,8 @@ public class TalkListActivity extends FragmentActivity
 
         setContentView(R.layout.activity_talk_list);
 
+        final TalkListFragment talkListFragment = (TalkListFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.talk_list);
         if (findViewById(R.id.talk_detail_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
@@ -64,9 +55,7 @@ public class TalkListActivity extends FragmentActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((TalkListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.talk_list))
-                    .setActivateOnItemClick(true);
+            talkListFragment.setActivateOnItemClick(true);
         }
 
         ((FahrplanApplication) getApplication()).getFahrplan(this, new Response.Listener<Fahrplan>() {
@@ -77,6 +66,7 @@ public class TalkListActivity extends FragmentActivity
                     Toast.makeText(TalkListActivity.this,
                             String.format(Locale.US, "Using Fahrplan v%.2f", fahrplan.getVersion()),
                             Toast.LENGTH_LONG).show();
+                    talkListFragment.setEvents(fahrplan.getAllEvents());
                 } else {
                     Toast.makeText(TalkListActivity.this, "No Fahrplan :(", Toast.LENGTH_LONG).show();
                 }
@@ -96,13 +86,13 @@ public class TalkListActivity extends FragmentActivity
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(long id) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(TalkDetailFragment.ARG_ITEM_ID, id);
+            arguments.putLong(TalkDetailFragment.ARG_ITEM_ID, id);
             TalkDetailFragment fragment = new TalkDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

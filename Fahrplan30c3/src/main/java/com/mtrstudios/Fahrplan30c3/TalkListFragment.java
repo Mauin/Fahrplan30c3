@@ -4,17 +4,18 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import com.mtrstudios.Fahrplan30c3.Data.Event;
 
-import com.mtrstudios.Fahrplan30c3.dummy.DummyContent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A list fragment representing a list of Talks. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
  * currently being viewed in a {@link TalkDetailFragment}.
- * <p>
+ * <p/>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
  */
@@ -46,7 +47,7 @@ public class TalkListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        public void onItemSelected(long id);
     }
 
     /**
@@ -55,7 +56,7 @@ public class TalkListFragment extends ListFragment {
      */
     private static Callbacks sDummyCallbacks = new Callbacks() {
         @Override
-        public void onItemSelected(String id) {
+        public void onItemSelected(long id) {
         }
     };
 
@@ -69,15 +70,8 @@ public class TalkListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<DummyContent.DummyItem>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
+        final EventListAdapter adapter = new EventListAdapter(getActivity(), R.layout.event_list_row, new ArrayList<Event>());
+        setListAdapter(adapter);
     }
 
     @Override
@@ -117,7 +111,7 @@ public class TalkListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        mCallbacks.onItemSelected(getEventListAdapter().getItemId(position));
     }
 
     @Override
@@ -150,4 +144,17 @@ public class TalkListFragment extends ListFragment {
 
         mActivatedPosition = position;
     }
+
+    public void setEvents(List<Event> events) {
+        final EventListAdapter adapter = getEventListAdapter();
+        adapter.clear();
+        if (events != null) {
+            adapter.addAll(events);
+        }
+    }
+
+    private EventListAdapter getEventListAdapter() {
+        return (EventListAdapter) getListAdapter();
+    }
+
 }
