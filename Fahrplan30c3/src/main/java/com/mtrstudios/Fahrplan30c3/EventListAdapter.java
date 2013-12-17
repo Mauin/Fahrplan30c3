@@ -25,8 +25,8 @@ public class EventListAdapter extends ArrayAdapter<Event> {
     static class ViewHolder {
         public TextView txTitle;
         public TextView txSpeaker;
-        public TextView txRoom;
         public TextView txAbstract;
+        public TextView txTime;
 
     }
 
@@ -39,6 +39,7 @@ public class EventListAdapter extends ArrayAdapter<Event> {
     public long getItemId(int position) {
         return getItem(position).getId();
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         View rowView = convertView;
@@ -49,7 +50,7 @@ public class EventListAdapter extends ArrayAdapter<Event> {
             viewHolder.txTitle = (TextView) rowView.findViewById(R.id.tx_title);
             viewHolder.txSpeaker = (TextView) rowView.findViewById(R.id.tx_speaker);
             viewHolder.txAbstract = (TextView) rowView.findViewById(R.id.tx_abstract);
-            viewHolder.txRoom = (TextView) rowView.findViewById(R.id.tx_room);
+            viewHolder.txTime = (TextView) rowView.findViewById(R.id.tx_time);
             rowView.setTag(viewHolder);
         }
 
@@ -57,7 +58,7 @@ public class EventListAdapter extends ArrayAdapter<Event> {
         final Event item = getItem(position);
         holder.txTitle.setText(item.getTitle());
         holder.txSpeaker.setText(item.getSpeakerNames());
-        holder.txRoom.setText(item.getRoom());
+        holder.txTime.setText(item.getStart());
         holder.txAbstract.setText(item.getAbstract_description());
 
         return rowView;

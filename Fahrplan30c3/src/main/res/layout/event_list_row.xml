@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+        android:padding="5dp">
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Security for Dummies"
+            android:id="@+id/tx_title"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:layout_alignParentTop="true"/>
+
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold"
+            android:text="12:00"
+            android:layout_below="@id/tx_title"
+            android:id="@+id/tx_time"/>
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textStyle="bold"
+            android:text="John Doe"
+            android:id="@+id/tx_speaker"
+            android:layout_toRightOf="@id/tx_time"
+            android:layout_below="@id/tx_title"
+            android:layout_gravity="center_horizontal"/>
+
+    <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Event Abstract"
+            android:id="@+id/tx_abstract"
+            android:maxLines="3"
+            android:layout_below="@id/tx_time"
+            android:ellipsize="end"/>
+
+</RelativeLayout>
