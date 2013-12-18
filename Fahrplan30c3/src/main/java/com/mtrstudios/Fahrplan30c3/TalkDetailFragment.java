@@ -6,8 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.mtrstudios.Fahrplan30c3.dummy.DummyContent;
+import com.mtrstudios.Fahrplan30c3.Data.Event;
 
 /**
  * A fragment representing a single Talk detail screen.
@@ -22,10 +21,7 @@ public class TalkDetailFragment extends Fragment {
      */
     public static final String ARG_ITEM_ID = "item_id";
 
-    /**
-     * The dummy content this fragment is presenting.
-     */
-    private DummyContent.DummyItem mItem;
+    private Event event;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -42,7 +38,7 @@ public class TalkDetailFragment extends Fragment {
             // Load the dummy content specified by the fragment
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
-            mItem = DummyContent.ITEM_MAP.get(getArguments().getString(ARG_ITEM_ID));
+            //TODO: load item
         }
     }
 
@@ -52,8 +48,8 @@ public class TalkDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_talk_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.talk_detail)).setText(mItem.content);
+        if (event!= null) {
+            ((TextView) rootView.findViewById(R.id.talk_detail)).setText(event.getTitle());
         }
 
         return rootView;
