@@ -35,4 +35,19 @@ public class Fahrplan {
         }
         return events;
     }
+
+    /**
+     * TODO - Dummy for Detail View Testing.
+     * @param id
+     * @return
+     */
+    public Event getEventById(int id) {
+        List<Event> events = getAllEvents();
+        for (Event event : events) {
+            if (id == event.getId()) {
+                return event;
+            }
+        }
+        return null;
+    }
 }

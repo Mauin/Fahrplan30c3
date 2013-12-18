@@ -38,8 +38,8 @@ public class TalkDetailActivity extends FragmentActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(TalkDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(TalkDetailFragment.ARG_ITEM_ID));
+            arguments.putLong(TalkDetailFragment.ARG_ITEM_ID,
+                    getIntent().getLongExtra(TalkDetailFragment.ARG_ITEM_ID, 0));
             TalkDetailFragment fragment = new TalkDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
