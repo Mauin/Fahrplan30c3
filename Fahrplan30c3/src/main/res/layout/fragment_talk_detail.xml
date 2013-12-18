@@ -1,9 +1,124 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/talk_detail"
-    style="?android:attr/textAppearanceLarge"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="true"
-    tools:context=".TalkDetailFragment" />
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:id="@+id/talk_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DAY X"
+            android:id="@+id/talk_day"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="XX:XX - XX:XX"
+            android:id="@+id/talk_time"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="HALL X"
+            android:id="@+id/talk_hall"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="3dp"
+        android:id="@+id/talk_track_color"
+        android:background="#00cb0f"
+        android:layout_below="@+id/talk_info"
+        android:layout_marginTop="5dp"
+        />
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/talk_track_color"
+        android:layout_marginTop="10dp">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="TALK TITLE"
+                android:id="@+id/talk_title"
+                android:textStyle="bold"
+                android:textSize="24sp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="Subtitle"
+                android:id="@+id/talk_subtitle"
+                android:textSize="16sp"
+                android:layout_below="@+id/talk_title"
+                android:layout_marginTop="5dp"
+                android:layout_centerHorizontal="true"
+                />
+
+            <RelativeLayout
+                android:id="@+id/talk_speaker_info"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/holo_blue_dark"
+                android:layout_below="@id/talk_subtitle"
+                android:layout_marginTop="15dp"
+                android:padding="5dp">
+
+                <com.android.volley.toolbox.NetworkImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:id="@+id/talk_speaker_image"
+                    android:background="@android:color/holo_green_light"
+                    />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_horizontal"
+                    android:text="SPEAKER NAME"
+                    android:id="@+id/talk_speaker_name"
+                    android:textSize="16sp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Lorem ipsum ..."
+                android:id="@+id/talk_abstract"
+                android:layout_below="@+id/talk_speaker_info"
+                android:layout_marginTop="15dp"
+                android:layout_centerHorizontal="true"
+                />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

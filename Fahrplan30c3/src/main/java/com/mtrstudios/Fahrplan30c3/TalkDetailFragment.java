@@ -1,12 +1,21 @@
 package com.mtrstudios.Fahrplan30c3;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
+import com.android.volley.toolbox.Volley;
 import com.mtrstudios.Fahrplan30c3.Data.Event;
+import com.mtrstudios.Fahrplan30c3.Data.Fahrplan;
 
 /**
  * A fragment representing a single Talk detail screen.
@@ -39,6 +48,13 @@ public class TalkDetailFragment extends Fragment {
             // arguments. In a real-world scenario, use a Loader
             // to load content from a content provider.
             //TODO: load item
+            final int id = (int) getArguments().getLong(ARG_ITEM_ID);
+            ((FahrplanApplication) getActivity().getApplication()).getFahrplan(getActivity(), new Response.Listener<Fahrplan>() {
+                @Override
+                public void onResponse(Fahrplan fahrplan) {
+                    event = fahrplan.getEventById(id);
+                }
+            });
         }
     }
 
@@ -48,8 +64,29 @@ public class TalkDetailFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_talk_detail, container, false);
 
         // Show the dummy content as text in a TextView.
-        if (event!= null) {
-            ((TextView) rootView.findViewById(R.id.talk_detail)).setText(event.getTitle());
+        if (event != null) {
+            ((TextView) rootView.findViewById(R.id.talk_time)).setText(event.getStart());
+            ((TextView) rootView.findViewById(R.id.talk_hall)).setText(event.getRoom());
+            ((TextView) rootView.findViewById(R.id.talk_title)).setText(event.getTitle());
+            ((TextView) rootView.findViewById(R.id.talk_subtitle)).setText(event.getSubtitle());
+            ((TextView) rootView.findViewById(R.id.talk_abstract)).setText(event.getAbstract_description());
+
+            ((TextView) rootView.findViewById(R.id.talk_speaker_name)).setText(event.getSpeakerNames());
+
+            /*
+            NetworkImageView speakerImageView = (NetworkImageView) rootView.findViewById(R.id.talk_speaker_image);
+            ImageLoader imageLoader = new ImageLoader(Volley.newRequestQueue(getActivity()), new ImageLoader.ImageCache() {
+                @Override
+                public void putBitmap(String key, Bitmap value) { }
+
+                @Override
+                public Bitmap getBitmap(String key) {
+                    return null;
+                }
+            });
+
+            speakerImageView.setImageUrl("ENTER URL HERE", imageLoader);
+            */
         }
 
         return rootView;
