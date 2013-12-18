@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by Marvin on 12.12.13.
  */
-@Root(name="day")
+@Root(name="day", strict = false)
 public class Day {
 
     @Attribute(name="date")

@@ -1,7 +1,5 @@
 package com.mtrstudios.Fahrplan30c3.Data;
 
-import com.android.volley.toolbox.StringRequest;
-
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
@@ -43,6 +41,9 @@ public class Event {
 
     @Element
     private String track;
+
+    @Element(name = "date")
+    private String dateString;
 
     @Element(required=false)
     private String type;
