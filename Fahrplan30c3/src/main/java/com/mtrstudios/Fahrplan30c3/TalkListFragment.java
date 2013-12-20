@@ -8,6 +8,7 @@ import android.widget.ListView;
 import com.mtrstudios.Fahrplan30c3.Data.Event;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -145,7 +146,7 @@ public class TalkListFragment extends ListFragment {
         mActivatedPosition = position;
     }
 
-    public void setEvents(List<Event> events) {
+    public void setEvents(Collection<Event> events) {
         final EventListAdapter adapter = getEventListAdapter();
         adapter.clear();
         if (events != null) {

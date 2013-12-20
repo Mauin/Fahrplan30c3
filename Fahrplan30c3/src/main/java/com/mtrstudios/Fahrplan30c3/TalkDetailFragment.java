@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.android.volley.toolbox.Volley;
+import com.google.common.base.Optional;
 import com.mtrstudios.Fahrplan30c3.Data.Event;
 import com.mtrstudios.Fahrplan30c3.Data.Fahrplan;
 
@@ -52,7 +53,12 @@ public class TalkDetailFragment extends Fragment {
             ((FahrplanApplication) getActivity().getApplication()).getFahrplan(getActivity(), new Response.Listener<Fahrplan>() {
                 @Override
                 public void onResponse(Fahrplan fahrplan) {
-                    event = fahrplan.getEventById(id);
+                    final Optional<Event> eventOptional = fahrplan.getEvent(id);
+                    if (eventOptional.isPresent()){
+                        event = eventOptional.get();
+                    } else {
+                        getActivity().finish();
+                    }
                 }
             });
         }
