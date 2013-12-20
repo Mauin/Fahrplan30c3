@@ -2,7 +2,6 @@ package com.mtrstudios.Fahrplan30c3.Data;
 
 import android.graphics.Color;
 import android.text.TextUtils;
-
 import com.google.common.base.Predicates;
 import com.google.common.collect.Iterables;
 import org.simpleframework.xml.Attribute;

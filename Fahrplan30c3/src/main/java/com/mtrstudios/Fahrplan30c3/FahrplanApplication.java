@@ -28,10 +28,6 @@ public class FahrplanApplication extends Application {
         return service;
     }
 
-    public void setService(ScheduleService service) {
-        this.service = service;
-    }
-
     protected void getFahrplan(final Context ctx, final Response.Listener<Fahrplan> listener) {
         getFahrplan(ctx, listener, false);
     }
@@ -114,10 +110,10 @@ public class FahrplanApplication extends Application {
     private void onScheduleChanged(Schedule updatedSchedule, Context ctx) {
         try {
             getService().setSchedule(ctx, updatedSchedule);
+            fahrplan = new Fahrplan(updatedSchedule);
+            Toast.makeText(ctx, "Schedule updated!", Toast.LENGTH_LONG).show();
         } catch (Exception e) {
             Log.e(FahrplanApplication.class.getName(), "Unable to store schedule", e);
         }
-        fahrplan = new Fahrplan(updatedSchedule);
-        Toast.makeText(ctx, "Schedule updated!", Toast.LENGTH_LONG).show();
     }
 }
