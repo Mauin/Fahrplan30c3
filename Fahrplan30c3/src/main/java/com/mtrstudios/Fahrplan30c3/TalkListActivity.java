@@ -11,6 +11,7 @@ import com.android.volley.Response;
 import com.mtrstudios.Fahrplan30c3.Data.Fahrplan;
 
 import java.util.Locale;
+import java.util.Random;
 
 
 /**
@@ -66,7 +67,7 @@ public class TalkListActivity extends FragmentActivity
                     Toast.makeText(TalkListActivity.this,
                             String.format(Locale.US, "Using Fahrplan v%.2f", fahrplan.getVersion()),
                             Toast.LENGTH_LONG).show();
-                    talkListFragment.setEvents(fahrplan.getAllEvents());
+                    talkListFragment.setEvents(fahrplan.findEventsByTrack(fahrplan.getTracks().get(new Random().nextInt(fahrplan.getTracks().size()))));
                 } else {
                     Toast.makeText(TalkListActivity.this, "No Fahrplan :(", Toast.LENGTH_LONG).show();
                 }
